@@ -1,35 +1,24 @@
-# Vex Fretboard
+# Vex Fretboard as a react componenet
 
-A JavaScript library for rendering guitar and bass fretboards.
-Copyright (c) 2013 Mohit Muthanna Cheppudira.
+A React Component for rendering guitar and bass fretboards.
 
-## Prerequisites
-
-CoffeeScript and PaperJS.
 
 ## Usage
 
-Simply instantiate a `Vex.Fretboard.Div` passing in the selector of a `div`
-element as the first parameter.
-
-Call `build(code)` on the instance to draw. If `code` is specified, it must
-be in the syntax described below. If `code` is not specified, the contents
-of the `div` element are parsed.
+This is a react component that is based on Vex Fretboard. It is highly dependent upon my React App for showing Chords.  
 
 ## Fretboard Syntax
 
-![Example](https://github.com/0xfe/fretboard/raw/master/img/example.png "Example")
+![Example](https://github.com/momolarson/fretboard/raw/master/img/example.png "Example")
 
-The above fretboard was rendered with the following code:
+While the rendering syntax is the same as is found in the original fretboard, this component makes use of the 
+APIs of https://www.guitartabcreator.com.  If you create tabs and chords on the website, you can access the API's to create the syntax necessary
+to print out the syntax. 
 
-    fretboard
-    show frets=3,4,5 string=1
-    show frets=3,4,5 string=2 color=red
-    show fret=3 string=6 text=G
-    show notes=10/1,10/2,9/3,9/4
+# Vex Fretboard Copyright
 
-Take a look at the [article on My VexFlow](http://my.vexflow.com/articles/119)
-for usage and examples.
+A JavaScript library for rendering guitar and bass fretboards.
+Copyright (c) 2013 Mohit Muthanna Cheppudira.
 
 ## MIT License
 
