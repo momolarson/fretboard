@@ -9,7 +9,7 @@ This is a react component that is based on Vex Fretboard. It is highly dependent
 
 ## Fretboard Syntax
 
-![Example](https://github.com/momolarson/fretboard/raw/master/img/example.png "Example")
+![Example](https://github.com/momolarson/fretboard/tree/master/img/example.JPG "Example")
 
 While the rendering syntax is the same as is found in the original fretboard, this component makes use of the 
 APIs of https://www.guitartabcreator.com.  If you create tabs and chords on the website, you can access the API's to create the syntax necessary
