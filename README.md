@@ -1,4 +1,4 @@
-# Vex Fretboard as a react componenet
+# Vex Fretboard as a react component
 
 A React Component for rendering guitar and bass fretboards.
 
