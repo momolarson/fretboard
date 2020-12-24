@@ -5,15 +5,21 @@ A React Component for rendering guitar and bass fretboards.
 
 ## Usage
 
-This is a react component that is based on Vex Fretboard. It is highly dependent upon my React App for showing Chords.  
+This is a react component that is based on Vex Fretboard. It uses the same syntax as the original vex fretboard.  In the examples folder, I have included a React App that makes use of it.  you can also find a version online at https://fretboard.guitartabcreator.com/
 
 ## Fretboard Syntax
 
-![Example](https://raw.githubusercontent.com/momolarson/fretboard/master/img/example.JPG "Example")
+![Example](https://raw.githubusercontent.com/momolarson/fretboard/master/img/example.png "Example")
 
-While the rendering syntax is the same as is found in the original fretboard, this component makes use of the 
-APIs of https://www.guitartabcreator.com.  If you create tabs and chords on the website, you can access the API's to create the syntax necessary
-to print out the syntax. 
+The above fretboard was rendered with the following code:
+
+```
+fretboard
+show frets=3,4,5,6 string=1
+show frets=3,4,5 string=2 color=red
+show fret=3 string=6 text=G
+show notes=10/1,10/2,9/3,9/4
+```
 
 # Vex Fretboard Copyright
 

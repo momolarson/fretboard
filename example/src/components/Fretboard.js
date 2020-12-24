@@ -43,6 +43,7 @@ class Fretboard extends Component {
             font_size:12,
             total_frets:21
         },
+        error: '',
         height: 0,
         string_spacing:0,
         fret_spacing:0,
@@ -63,6 +64,7 @@ class Fretboard extends Component {
     this.light_radius = (this.string_spacing / 2) - 1;
     this.start_fret = this.state.Fretboard.start_fret;
     this.end_fret = this.state.Fretboard.end_fret;
+    this.setState({ error: ""});
 
     this.calculateFretPositions();
   }
@@ -94,7 +96,8 @@ class Fretboard extends Component {
   render() {
     return (
       <>
-      <textarea id="fretboard-input" ref={this.divRef} cols='60' rows='8' defaultValue='fretboard&#13;&#10;show frets=3,4,5,6 string=1&#13;&#10;show frets=3,4,5 string=2 color=red&#13;&#10;show fret=3 string=6 text=G&#13;&#10;show notes=10/1,10/2,9/3,9/4&#13;&#10;'>
+      <p>{this.state.error}</p>
+      <textarea id="fretboard-input" ref={this.divRef} cols='60' rows='8' defaultValue='show frets=3,4,5,6 string=1&#13;&#10;show frets=3,4,5 string=2 color=red&#13;&#10;show fret=3 string=6 color=#0F0 fill-color=sandybrown&#13;&#10;show notes=10/1,10/2,9/3,9/4&#13;&#10;'>
       </textarea>
       <br />
       <button onClick={this.handleChange.bind(this)}>
@@ -103,9 +106,7 @@ class Fretboard extends Component {
     <div className={this.props.showFretboard ? "pc-Show" : "pc-Hide"}>
       <canvas id='fretboard-canvas' ref={this.canvasRef} width={this.state.FretboardDiv.width} height={this.state.FretboardDiv.height}/>
     </div>
-    <p>
-      This is a derivative of the vexflow fretbard typescript code, converted into a React Component using javascript. It accepts the same input
-    </p>
+    
     </>
     )     
   }
@@ -299,8 +300,11 @@ class Fretboard extends Component {
       for (i = 0, len = options.length; i < len; i++) {
         option = options[i];
         match = option.match(/^(\S+)\s*=\s*(\S+)/);
-        if (ref = match[1], this.indexOf.call(valid_options, ref) < 0) {
-          throw error("Invalid 'show' option: " + match[1]);
+        if(match === null) {
+          this.setState({ error: "Invalid 'show' option: " + option});
+        } else if (ref = match[1], this.indexOf.call(valid_options, ref) < 0) {
+          this.setState({ error: "Invalid 'show' option: " + match[1] });
+          //this.state.error = "Invalid 'show' option: " + match[1];
         }
         if (match != null) {
           params[match[1]] = match[2];
