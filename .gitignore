@@ -1,3 +1,6 @@
 /example/node_modules/*
 .vscode
 /example/build/*
+
+/example/.eslintcache
+ads.txt
