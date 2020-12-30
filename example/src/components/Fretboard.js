@@ -48,6 +48,7 @@ class Fretboard extends Component {
         string_spacing:0,
         fret_spacing:0,
         light_radius:0,
+        changed: true,
       };
   }
 
@@ -65,10 +66,9 @@ class Fretboard extends Component {
     this.start_fret = this.state.Fretboard.start_fret;
     this.end_fret = this.state.Fretboard.end_fret;
     this.setState({ error: ""});
-
     this.calculateFretPositions();
   }
-      // Called after render
+
   componentDidMount() {
     this.reset();
     this.parse();
@@ -86,22 +86,32 @@ class Fretboard extends Component {
     }
   }
 
-  handleChange () {
+  handleTextChange() {
+    this.setState({changed: false});
+  }
+
+  handleButtonClick () {
+    this.lights = [];
+    this.paper.project.activeLayer.removeChildren();
+    this.paper.view.draw();
     this.reset();
     this.parse();
     this.draw();
     this.lightsCameraAction();
+    this.setState({changed: true});
   }
+
+
 
   render() {
     return (
       <>
       <p>{this.state.error}</p>
-      <textarea id="fretboard-input" ref={this.divRef} cols='60' rows='8' defaultValue='show frets=3,4,5,6 string=1&#13;&#10;show frets=3,4,5 string=2 color=red&#13;&#10;show fret=3 string=6 color=#0F0 fill-color=sandybrown&#13;&#10;show notes=10/1,10/2,9/3,9/4&#13;&#10;'>
+      <textarea id="fretboard-input" onChange={this.handleTextChange.bind(this)} ref={this.divRef} cols='60' rows='8' defaultValue='show frets=3,4,5,6 string=1&#13;&#10;show frets=3,4,5 string=2 color=red&#13;&#10;show fret=3 string=6 color=#0F0 fill-color=sandybrown&#13;&#10;show notes=10/1,10/2,9/3,9/4&#13;&#10;'>
       </textarea>
       <br />
-      <button onClick={this.handleChange.bind(this)}>
-        Update Fretboard
+      <button onClick={this.handleButtonClick.bind(this)} disabled={this.state.changed}>
+        {this.state.changed ? "change text above to change the fretboard" : "click to redraw the fretboard"}
       </button>
     <div className={this.props.showFretboard ? "pc-Show" : "pc-Hide"}>
       <canvas id='fretboard-canvas' ref={this.canvasRef} width={this.state.FretboardDiv.width} height={this.state.FretboardDiv.height}/>
@@ -363,7 +373,7 @@ class Fretboard extends Component {
             string: parseInt(parts[2], 10)
           });
         } else {
-          throw error("Invalid note: " + note);
+          this.setState({ error: "Invalid note: " + note});
         }
       }
       return extracted_notes;
@@ -390,7 +400,7 @@ class Fretboard extends Component {
         notes = this.extractNotes(light.notes);
       }
       if ((!((frets != null) && (strings != null))) && (notes == null)) {
-        throw error("No frets or strings specified on line");
+        this.setState({ error: "No frets or strings specified on line"});
       }
       lights = [];
       if ((frets != null) && (strings != null)) {
