@@ -57,7 +57,7 @@
       <br />
       Each line represents a set of notes that you want to display and must start with "show".
       <br />
-      The current available commands are: <code>"fret", "frets", "string", "strings", "color", "note", "notes", "fill-color"</code>
+      The current available commands are: <code>"fret", "frets", "string", "strings", "color", "note", "notes", "fill-color", "text"</code>
       <br />
       To add a single dot: <code>show fret=3 string=6</code>
       <br />
@@ -68,6 +68,8 @@
       To add a border color to any line use <code>color=</code>. Color can be any Hexadecimal color code (#F00, #00F,#FFDAB9), or also color names (red, blue, peachpuff)
       <br />
       If you specify a fill-color on any line <code>fill-color=</code> , the <code>color</code> option will be used for the border, and the <code>fill-color</code> will be used as fill.  The same coloring options apply.
+      <br />
+      If you add <code>text=</code> to any line, all the notes within that line will have the text.
       <br />
       <br />
       This is a derivative of the vexflow fretbard typescript code created by Mohit Cheppudira found here: <a href="https://github.com/0xfe/fretboard">Vex Fretboard</a>.  I converted into a React Component. 

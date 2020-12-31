@@ -107,7 +107,7 @@ class Fretboard extends Component {
     return (
       <>
       <p>{this.state.error}</p>
-      <textarea id="fretboard-input" onChange={this.handleTextChange.bind(this)} ref={this.divRef} cols='60' rows='8' defaultValue='show frets=3,4,5,6 string=1&#13;&#10;show frets=3,4,5 string=2 color=red&#13;&#10;show fret=3 string=6 color=#0F0 fill-color=sandybrown&#13;&#10;show notes=10/1,10/2,9/3,9/4&#13;&#10;'>
+      <textarea id="fretboard-input" onChange={this.handleTextChange.bind(this)} ref={this.divRef} cols='60' rows='8' defaultValue='show frets=3,4,5,6 string=1&#13;&#10;show frets=3,4,5 string=2 color=red&#13;&#10;show fret=3 string=6 color=#0F0 fill-color=sandybrown&#13;&#10;show notes=10/1,10/2,9/3,9/4&#13;&#10;show note=0/6 text=E&#13;&#10;'>
       </textarea>
       <br />
       <button onClick={this.handleButtonClick.bind(this)} disabled={this.state.changed}>
@@ -428,9 +428,9 @@ class Fretboard extends Component {
       var opts, path, point, y_displacement;
       opts = {
         color: "white",
-        fillColor: "#666"
+        fillColor: "#666",
+        ...options
       };
-     // _.extend(opts, options);
       point = this.getFretCenter(opts.fret, opts.string);
       path = new this.paper.Path.Circle(point, this.light_radius);
       path.strokeColor = opts.color;
