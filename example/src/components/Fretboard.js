@@ -49,6 +49,7 @@ class Fretboard extends Component {
         fret_spacing:0,
         light_radius:0,
         changed: true,
+        loginDialog: false,
       };
   }
 
@@ -90,6 +91,14 @@ class Fretboard extends Component {
     this.setState({changed: false});
   }
 
+  handleLoginClose = () => {
+    this.setState({loginDialog: false});
+  };
+
+  handleSaveButtonClick= () => {
+    this.setState({loginDialog: true});
+  }
+
   handleButtonClick () {
     this.lights = [];
     this.paper.project.activeLayer.removeChildren();
@@ -107,7 +116,7 @@ class Fretboard extends Component {
     return (
       <>
       <p>{this.state.error}</p>
-      <textarea id="fretboard-input" onChange={this.handleTextChange.bind(this)} ref={this.divRef} cols='60' rows='8' defaultValue='show frets=3,4,5,6 string=1&#13;&#10;show frets=3,4,5 string=2 color=red&#13;&#10;show fret=3 string=6 color=#0F0 fill-color=sandybrown&#13;&#10;show notes=10/1,10/2,9/3,9/4&#13;&#10;show note=0/6 text=E&#13;&#10;'>
+      <textarea id="fretboard-input" onChange={this.handleTextChange.bind(this)} ref={this.divRef} cols='60' rows='8' defaultValue='show frets=3,4,5,6 string=1&#13;&#10;show frets=3,4,5 string=2 color=red&#13;&#10;show fret=3 string=6 color=#0F0 fill-color=sandybrown&#13;&#10;show notes=10/1,10/2,9/3,9/4&#13;&#10;show note=0/6 text=E color=red fill-color=white text-color=blue&#13;&#10;'>
       </textarea>
       <br />
       <button className="drawFretboard" onClick={this.handleButtonClick.bind(this)} disabled={this.state.changed}>
@@ -116,7 +125,6 @@ class Fretboard extends Component {
     <div className={this.props.showFretboard ? "pc-Show" : "pc-Hide"}>
       <canvas id='fretboard-canvas' ref={this.canvasRef} width={this.state.FretboardDiv.width} height={this.state.FretboardDiv.height}/>
     </div>
-    
     </>
     )     
   }
@@ -306,7 +314,7 @@ class Fretboard extends Component {
       var i, len, match, option, options, params, ref, valid_options;
       options = line.split(/\s+/);
       params = {};
-      valid_options = ["fret", "frets", "string", "strings", "text", "color", "note", "notes", "fill-color"];
+      valid_options = ["fret", "frets", "string", "strings", "text", "color", "note", "notes", "fill-color","text-color"];
       for (i = 0, len = options.length; i < len; i++) {
         option = options[i];
         match = option.match(/^(\S+)\s*=\s*(\S+)/);
@@ -340,6 +348,9 @@ class Fretboard extends Component {
             }
             if (light["fill-color"] != null) {
               param.fillColor = light["fill-color"];
+            }
+            if (light["text-color"] != null) {
+              param.textColor = light["text-color"];
             }
             if (light.text != null) {
               param.text = light.text;
@@ -438,7 +449,12 @@ class Fretboard extends Component {
       y_displacement = this.string_spacing / 5;
       point.y += y_displacement;
       if (opts.text != null) {
-        this.renderText(point, opts.text, opts.color);
+        if (opts.textColor !== undefined) {
+          this.renderText(point, opts.text, opts.textColor);
+        } else {
+          this.renderText(point, opts.text, opts.color);
+        }
+        
       }
       return this.paper.view.draw();
     }
