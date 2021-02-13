@@ -49,6 +49,10 @@ class Fretboard extends Component {
         fret_spacing:0,
         light_radius:0,
         changed: true,
+        Drawings: {
+          current: 0,
+          collection: []
+        }
       };
   }
 
@@ -90,7 +94,7 @@ class Fretboard extends Component {
     this.setState({changed: false});
   }
 
-  handleButtonClick () {
+  redrawFretboard(){
     this.lights = [];
     this.paper.project.activeLayer.removeChildren();
     this.paper.view.draw();
@@ -98,9 +102,34 @@ class Fretboard extends Component {
     this.parse();
     this.draw();
     this.lightsCameraAction();
-    this.setState({changed: true});
+  }
+  handleButtonClick () {
+    this.redrawFretboard();
+    let position = this.state.Drawings.collection.length;
+    this.setState({changed: true,Drawings:{current:position,collection:[...this.state.Drawings.collection,this.divRef.current.value]}});
   }
 
+  handlePreviousButtonClick () {
+    let position = 0;
+    if(this.state.Drawings.current > 0){
+      //the current is the one just saved, so you want to go back one
+      position = this.state.Drawings.current - 1;
+    }
+    this.divRef.current.value = this.state.Drawings.collection[position];
+    this.redrawFretboard();
+    this.setState({changed: true,Drawings:{current:position,collection:[...this.state.Drawings.collection]}});
+  }
+
+  handleNextButtonClick () {
+    let position = this.state.Drawings.collection.length;
+    if(this.state.Drawings.current !== this.state.Drawings.collection.length){
+      //the current is the one just saved, so you want to go back one
+      position = this.state.Drawings.current + 1;
+    }
+    this.divRef.current.value = this.state.Drawings.collection[position];
+    this.redrawFretboard();
+    this.setState({changed: true,Drawings:{current:position,collection:[...this.state.Drawings.collection]}});
+  }
 
 
   render() {
@@ -110,8 +139,14 @@ class Fretboard extends Component {
       <textarea id="fretboard-input" onChange={this.handleTextChange.bind(this)} ref={this.divRef} cols='60' rows='8' defaultValue='show frets=3,4,5,6 string=1&#13;&#10;show frets=3,4,5 string=2 color=red&#13;&#10;show fret=3 string=6 color=#0F0 fill-color=sandybrown&#13;&#10;show notes=10/1,10/2,9/3,9/4&#13;&#10;show note=0/6 text=E&#13;&#10;'>
       </textarea>
       <br />
+      <button className="drawPreviousFretboard" onClick={this.handlePreviousButtonClick.bind(this)} disabled={this.state.Drawings.collection.length < 2 || this.state.Drawings.current === 0}>
+        Go Back thorugh Diagrams
+      </button>
       <button className="drawFretboard" onClick={this.handleButtonClick.bind(this)} disabled={this.state.changed}>
         {this.state.changed ? "change text above to change the fretboard" : "click to redraw the fretboard"}
+      </button>
+      <button className="drawNextFretboard" onClick={this.handleNextButtonClick.bind(this)} disabled={ this.state.Drawings.current >= this.state.Drawings.collection.length - 1}>
+        Go Forward through Diagrams
       </button>
     <div className={this.props.showFretboard ? "pc-Show" : "pc-Hide"}>
       <canvas id='fretboard-canvas' ref={this.canvasRef} width={this.state.FretboardDiv.width} height={this.state.FretboardDiv.height}/>
