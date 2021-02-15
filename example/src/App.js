@@ -1,6 +1,7 @@
 import logo from './gtc_verylarge_circular.png';
 import './App.css';
 import Fretboard from './components/Fretboard';
+import Alert from "./components/Alert";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         </p>
       </header>
       <Fretboard />
+      <Alert />
     </div>
   );
 }
